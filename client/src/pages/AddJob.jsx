@@ -12,18 +12,21 @@ import FormRowSelect from '../components/FormRowSelect'
 import { toast } from 'react-toastify'
 import customFetch from '../../../utils/customFetch'
 
-export const action = async ({ request }) => {
-  const formData = await request.formData()
-  const data = Object.fromEntries(formData)
-  try {
-    await customFetch.post('/jobs', data)
-    toast.success('job created successfuly')
-    return redirect('all-jobs')
-  } catch (error) {
-    toast.error(error?.response?.data?.msg)
-    return error
+export const action =
+  (queryClient) =>
+  async ({ request }) => {
+    const formData = await request.formData()
+    const data = Object.fromEntries(formData)
+    try {
+      await customFetch.post('/jobs', data)
+      toast.success('job created successfuly')
+      queryClient.invalidateQueries(['jobs'])
+      return redirect('all-jobs')
+    } catch (error) {
+      toast.error(error?.response?.data?.msg)
+      return error
+    }
   }
-}
 const AddJob = () => {
   const navigation = useNavigation()
   const isSubmitting = navigation.state === 'submitting'

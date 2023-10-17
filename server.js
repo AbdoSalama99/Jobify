@@ -3,6 +3,10 @@ import 'express-async-errors' // handle async error
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js'
 import { authenticateUser } from './middlewares/authMiddleware.js'
 
+// security packages
+import helmet from 'helmet'
+import mongoSanitize from 'express-mongo-sanitize'
+
 import express from 'express'
 const app = express()
 
@@ -28,6 +32,10 @@ import cookieParser from 'cookie-parser'
 app.use(cookieParser())
 
 app.use(express.json())
+
+// security packages
+app.use(helmet())
+app.use(mongoSanitize())
 
 dotenv.config()
 if (process.env.NODE_ENV === 'development') {
