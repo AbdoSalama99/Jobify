@@ -18,9 +18,8 @@ export const loader = (queryClient) => async () => {
 }
 
 const Stats = () => {
-  const {
-    data: { defaultStats, monthlyApplications },
-  } = useQuery(statsQuery)
+  const { data } = useQuery(statsQuery)
+  const { defaultStats, monthlyApplications } = data
 
   return (
     <>
