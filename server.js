@@ -35,6 +35,19 @@ app.use(express.json())
 
 // security packages
 app.use(helmet())
+
+// Use Helmet middleware with updated CSP directive
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        'img-src': ["'self'", 'data:', 'https://res.cloudinary.com'],
+      },
+    },
+  })
+)
+
 app.use(mongoSanitize())
 
 dotenv.config()

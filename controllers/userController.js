@@ -26,7 +26,8 @@ export const updateUser = async (req, res) => {
   if (req.file) {
     const file = formatImage(req.file)
     const response = await cloudinary.v2.uploader.upload(file)
-    newUser.avatar = response.secure_url
+    console.log(response)
+    newUser.avatar = response.url
     newUser.avatarPublicId = response.public_id
   }
   const oldUser = await User.findByIdAndUpdate(req.user.userId, newUser)
